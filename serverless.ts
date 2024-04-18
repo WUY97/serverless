@@ -2,6 +2,7 @@ import type { AWS } from '@serverless/typescript';
 
 import hello from '@functions/hello';
 import createAuction from '@functions/createAuction';
+import getAuctions from '@functions/getAuctions';
 
 import AuctionsTable from './resources/AuctionsTable';
 
@@ -34,6 +35,7 @@ const serverlessConfiguration: AWS = {
   functions: {
     hello,
     createAuction,
+    getAuctions,
   },
   resources: {
     Resources: {

@@ -1,6 +1,6 @@
 const AuctionsTableIam = {
   Effect: 'Allow',
-  Action: ['dynamodb:PutItem'],
+  Action: ['dynamodb:PutItem', 'dynamodb:Scan'],
   Resource: {
     'Fn::Join': [
       '',
