@@ -3,10 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { PutCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 
-import middy from '@middy/core';
-import httpJsonBodyParser from '@middy/http-json-body-parser';
-import httpErrorHandler from '@middy/http-error-handler';
-import httpEventNormalizer from '@middy/http-event-normalizer';
+import { middyfy } from '@libs/lambda';
 import createError from 'http-errors';
 
 import schema from './schema';
@@ -53,7 +50,4 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   };
 };
 
-export const main = middy(handler)
-  .use(httpJsonBodyParser())
-  .use(httpEventNormalizer())
-  .use(httpErrorHandler());
+export const main = middyfy(handler);

@@ -1,10 +1,8 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { ScanCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { middyfy } from '@libs/lambda';
 
-import middy from '@middy/core';
-import httpErrorHandler from '@middy/http-error-handler';
-import httpEventNormalizer from '@middy/http-event-normalizer';
 import createError from 'http-errors';
 
 const client = new DynamoDBClient({
@@ -31,6 +29,4 @@ const handler: ValidatedEventAPIGatewayProxyEvent<undefined> = async () => {
   }
 };
 
-export const main = middy(handler)
-  .use(httpEventNormalizer())
-  .use(httpErrorHandler());
+export const main = middyfy(handler);

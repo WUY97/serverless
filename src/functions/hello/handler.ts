@@ -2,10 +2,7 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 
 import schema from './schema';
 
-import middy from '@middy/core';
-import httpErrorHandler from '@middy/http-error-handler';
-import httpEventNormalizer from '@middy/http-event-normalizer';
-import httpJsonBodyParser from '@middy/http-json-body-parser';
+import { middyfy } from '@libs/lambda';
 
 const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   event
@@ -22,7 +19,4 @@ const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   };
 };
 
-export const main = middy(hello)
-  .use(httpJsonBodyParser())
-  .use(httpEventNormalizer())
-  .use(httpErrorHandler());
+export const main = middyfy(hello);
