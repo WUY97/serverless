@@ -12,11 +12,7 @@ const client = new DynamoDBClient({
 
 const docClient = DynamoDBDocumentClient.from(client);
 
-const getAuctionById: ValidatedEventAPIGatewayProxyEvent<undefined> = async (
-  event
-) => {
-  const { id } = event.pathParameters;
-
+export async function getAuctionById(id: string) {
   let auction: any;
 
   try {
@@ -36,10 +32,20 @@ const getAuctionById: ValidatedEventAPIGatewayProxyEvent<undefined> = async (
     throw new createError.NotFound(`Auction with ID "${id}" not found`);
   }
 
+  return auction;
+}
+
+const handler: ValidatedEventAPIGatewayProxyEvent<undefined> = async (
+  event
+) => {
+  const { id } = event.pathParameters;
+
+  const auction = await getAuctionById(id);
+
   return {
     statusCode: 200,
     body: JSON.stringify(auction),
   };
 };
 
-export const main = middyfy(getAuctionById);
+export const main = middyfy(handler);
